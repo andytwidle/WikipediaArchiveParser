@@ -31,10 +31,10 @@ namespace Extract
         /// </summary>
         public enum ParseState
         {
-            SearchingForPage,
-            InPage,
-            InRevision,
-            InContributor,
+            SearchingForPage,   // Transitions to InPage
+            InPage,             // Transitions to InRevision | SearchingForPage
+            InRevision,         // Transitions to InContributor | InPage
+            InContributor,      // Transitions to InRevision
         };
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace Extract
         /// <summary>
         /// Executes parse logic for liens in Revision elements
         /// </summary>
-        /// <returns>state || InPage</returns>
+        /// <returns>state || InContributor || InPage</returns>
         private ParseState ParseRevisionLine(Page page, string line, ParseState state)
         {
             var revision = page.Last();
